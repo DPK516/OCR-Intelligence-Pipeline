@@ -5,7 +5,7 @@ import glob
 
 def preprocess_image(image_path, output_path):
     """
-    Cleans up a raw image to make the text pop for the OCR AI.
+    To cleans up a raw image to make the text pop for the OCR AI.
 
     """
     

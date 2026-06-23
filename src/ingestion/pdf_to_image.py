@@ -3,7 +3,8 @@ import os
 
 def convert_pdf_to_images(pdf_path, output_folder, zoom=2.0):
     """
-    Takes a PDF and saves each page as a high-res PNG image.
+    It takes a PDF and saves each page as a high-res PNG image.
+    
     """
     
     pdf_document = fitz.open(pdf_path)
@@ -17,7 +18,7 @@ def convert_pdf_to_images(pdf_path, output_folder, zoom=2.0):
     for page_number in range(len(pdf_document)):
         page = pdf_document.load_page(page_number)
         
-        # Zoom in to make the image high resolution (CRITICAL for AI OCR)
+        # to zoom in to make the image high resolution 
         matrix = fitz.Matrix(zoom, zoom)
         pixel_map = page.get_pixmap(matrix=matrix)
         
