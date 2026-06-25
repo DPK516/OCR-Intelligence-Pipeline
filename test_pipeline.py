@@ -8,9 +8,6 @@ def run_test():
     input_directory = "data/raw_images"
     image_files = glob.glob(os.path.join(input_directory, "*.png"))
     
-    if not image_files:
-        print("No images found! Make sure to run your ingestion script first.")
-        return
 
     print(f"Found {len(image_files)} images. Starting the structured pipeline test...\n")
     
