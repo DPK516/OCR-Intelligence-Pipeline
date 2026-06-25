@@ -37,17 +37,27 @@ def run_test():
         print(result.get("final_corrected_text", "No text found."))
         
         print("\n--- AUDIT TRAIL (ERROR LOG) ---")
-        
         error_log = result.get("error_log", []) 
         
         if not error_log:
             print("The AI did not find any high-confidence errors to fix.")
         else:
+            printed_errors = 0
+            for error in error_log:
+                original = error.get('original_mistake', '')
+                fixed = error.get('correction', '')
+                
+                
+                if original.strip() == fixed.strip():
+                    continue 
+                
+                printed_errors += 1
+                print(f"[{printed_errors}] Location: {error.get('location', 'Unknown')}")
+                print(f"    Mistake: '{original}'")
+                print(f"    Fixed to: '{fixed}'\n")
             
-            for index, error in enumerate(error_log, 1):
-                print(f"[{index}] Location: {error.get('location', 'Unknown')}")
-                print(f"    Mistake: '{error.get('original_mistake', '')}'")
-                print(f"    Fixed to: '{error.get('correction', '')}'\n")
+            if printed_errors == 0:
+                print("No actual text changes were required on this page.")
                 
         print("================================================\n")
 
