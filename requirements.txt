@@ -1,2 +1,2 @@
 PyMuPDF
-ollama
+python-docx
