@@ -23,6 +23,7 @@ def create_word_document(pages_structured_data, output_filename):
                     num_cols = len(rows_data[0]) if num_rows > 0 else 1
                     table = doc.add_table(rows=num_rows, cols=num_cols)
                     table.style = 'Table Grid' 
+                    table.autofit = True
                     
                     
                     for row_idx, row_text_list in enumerate(rows_data):
