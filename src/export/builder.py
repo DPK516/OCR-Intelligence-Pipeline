@@ -12,6 +12,34 @@ def create_word_document(pages_structured_data, output_filename):
         print(f"Assembling Page {page_number} with advanced formatting...")
         
         for block in page_data.get("page_layout_corrected", []):
+            block_type = block.get("type", "paragraph")
+            
+            
+            if block_type == "table":
+                rows_data = block.get("rows", [])
+                if rows_data:
+                    
+                    num_rows = len(rows_data)
+                    num_cols = len(rows_data[0]) if num_rows > 0 else 1
+                    table = doc.add_table(rows=num_rows, cols=num_cols)
+                    table.style = 'Table Grid' 
+                    
+                    
+                    for row_idx, row_text_list in enumerate(rows_data):
+                        for col_idx, cell_text in enumerate(row_text_list):
+                            
+                            if col_idx < num_cols: 
+                                clean_text = str(cell_text)
+                                
+                                if clean_text == "[BLANK]":
+                                    clean_text = ""
+                                table.cell(row_idx, col_idx).text = clean_text
+                
+                
+                doc.add_paragraph()
+                continue 
+            
+            
             p = doc.add_paragraph()
             
             
@@ -21,7 +49,7 @@ def create_word_document(pages_structured_data, output_filename):
             elif alignment == "right":
                 p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
                 
-           
+            
             text_spans = block.get("text_spans", [])
             for span in text_spans:
                 run = p.add_run(span.get("text", ""))
@@ -32,12 +60,12 @@ def create_word_document(pages_structured_data, output_filename):
                 if span.get("italic", False):
                     run.italic = True
                     
-                
+                 
                 if block.get("font_style") == "serif":
                     run.font.name = 'Times New Roman'
                 else:
                     run.font.name = 'Arial'
-                    
+        
         
         if page_number < len(pages_structured_data):
             if 'p' in locals():
